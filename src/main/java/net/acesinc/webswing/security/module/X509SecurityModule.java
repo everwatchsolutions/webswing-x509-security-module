@@ -53,7 +53,7 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
             }
 
             log.info("Authenticating user [ " + userId + " ]");
-            user = new X509User(userId, commonName);
+            user = new X509User(userId, "CN=" + commonName);
             log.debug("Created User object for user [ " + user.getUserId() + " ]");
 
             if (userAuthService != null) {
