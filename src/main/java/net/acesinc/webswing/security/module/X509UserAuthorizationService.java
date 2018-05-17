@@ -5,10 +5,35 @@
  */
 package net.acesinc.webswing.security.module;
 
+import java.util.Map;
+
 /**
  *
  * @author andrewserff
  */
-public interface X509UserAuthorizationService {
-    public X509User populateUserAuthorizations(X509User user);
+public abstract class X509UserAuthorizationService {
+    private Map<String, String> options;
+
+    public X509UserAuthorizationService() {
+    }
+
+    public X509UserAuthorizationService(Map<String, String> options) {
+        this.options = options;
+    }
+    
+    public abstract X509User populateUserAuthorizations(X509User user);
+
+    /**
+     * @return the options
+     */
+    public Map<String, String> getOptions() {
+        return options;
+    }
+
+    /**
+     * @param options the options to set
+     */
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
+    }
 }

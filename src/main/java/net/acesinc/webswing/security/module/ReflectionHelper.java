@@ -7,12 +7,16 @@ package net.acesinc.webswing.security.module;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author  andrewserff
  */
 public class ReflectionHelper {
+    
+    private static final Logger log = LoggerFactory.getLogger(ReflectionHelper.class);
     
     /**
      * Get class name without package prefix
@@ -74,16 +78,8 @@ public class ReflectionHelper {
             
             Object obj = con.newInstance(args);
             return obj;
-        } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
-        } catch (NoSuchMethodException nsme) {
-            nsme.printStackTrace();
-        } catch (InstantiationException ie) {
-            ie.printStackTrace();
-        } catch (IllegalAccessException iae) {
-            iae.printStackTrace();
-        } catch (InvocationTargetException ite) {
-            ite.printStackTrace();
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            log.warn("Error instantiating class [ " + classname + " ]", e);
         }
         return null;
     }

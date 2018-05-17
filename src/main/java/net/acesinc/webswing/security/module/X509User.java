@@ -19,12 +19,14 @@ import org.webswing.server.services.security.api.AbstractWebswingUser;
 public class X509User extends AbstractWebswingUser {
 
     private String userId;
+    private String fullCn;
     private List<String> roles;
     private Map<String, Serializable> userAttributes;
     
-    public X509User(String userId) {
+    public X509User(String userId, String fullCn) {
         super();
         this.userId = userId;
+        this.fullCn = fullCn;
         roles = new ArrayList<>();
         userAttributes = new HashMap<>();
     }
@@ -35,6 +37,10 @@ public class X509User extends AbstractWebswingUser {
     
     public Serializable getUserAttribute(String key) {
         return userAttributes.get(key);
+    }
+    
+    public void addRole(String role) {
+        roles.add(role);
     }
     
     @Override
@@ -50,6 +56,24 @@ public class X509User extends AbstractWebswingUser {
     @Override
     public boolean hasRole(String role) {
         return roles.contains(role);
+    }
+    
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @return the fullCn
+     */
+    public String getFullCn() {
+        return fullCn;
+    }
+
+    /**
+     * @param fullCn the fullCn to set
+     */
+    public void setFullCn(String fullCn) {
+        this.fullCn = fullCn;
     }
     
 }

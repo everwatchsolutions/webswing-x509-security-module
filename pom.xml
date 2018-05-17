@@ -39,7 +39,6 @@
             <groupId>org.webswing</groupId>
             <artifactId>webswing-server-security</artifactId>
             <version>2.5.3</version>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>rt-win-shell</groupId>

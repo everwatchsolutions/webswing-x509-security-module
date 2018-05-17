@@ -8,6 +8,8 @@ package net.acesinc.webswing.security.module;
 import java.io.IOException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
@@ -51,7 +53,7 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
             }
 
             log.info("Authenticating user [ " + userId + " ]");
-            user = new X509User(userId);
+            user = new X509User(userId, commonName);
             log.debug("Created User object for user [ " + user.getUserId() + " ]");
 
             if (userAuthService != null) {
@@ -128,6 +130,10 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
 
     private X509UserAuthorizationService locateUserAuthService() {
         String className = this.getConfig().getUserAuthClassName();
+        Map<String, String> authProviderOptions = this.getConfig().getUserAuthProviderOptions();
+        if (authProviderOptions == null) { //make an empty set...
+            authProviderOptions = new HashMap<>();
+        }
         X509UserAuthorizationService authService = null;
 
         if (className != null && !className.isEmpty()) {
@@ -135,6 +141,8 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
             authService = (X509UserAuthorizationService) ReflectionHelper.createObject(className);
             if (authService == null) {
                 log.warn("No User Authentication Service Providers were found in ClassPath");
+            } else {
+                authService.setOptions(authProviderOptions);
             }
         }
         return authService;
