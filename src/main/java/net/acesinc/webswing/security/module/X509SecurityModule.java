@@ -27,8 +27,12 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
 
     private static final Logger log = LoggerFactory.getLogger(X509SecurityModule.class);
 
+    private X509UserAuthorizationService userAuthService;
+
     public X509SecurityModule(X509SecurityModuleConfig config) {
         super(config);
+
+        this.userAuthService = locateUserAuthService();
     }
 
     @Override
@@ -45,10 +49,14 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
             if (strings.length > 0) {
                 userId = strings[strings.length - 1];
             }
-            
+
             log.info("Authenticating user [ " + userId + " ]");
             user = new X509User(userId);
             log.debug("Created User object for user [ " + user.getUserId() + " ]");
+
+            if (userAuthService != null) {
+                user = userAuthService.populateUserAuthorizations(user);
+            }
         } else {
             log.warn("No user info was found in request to authenticate...");
             log.debug("oh well -- debug");
@@ -116,6 +124,32 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
         }
 
         return commonName;
+    }
+
+    private X509UserAuthorizationService locateUserAuthService() {
+//        ClassFinder finder = new ClassFinder();
+//        finder.addClassPath();
+//
+//        ClassFilter filter = new SubclassClassFilter(X509UserAuthorizationService.class);
+//
+//        Collection<ClassInfo> foundClasses = new ArrayList<ClassInfo>();
+//        finder.findClasses(foundClasses, filter);
+//
+//        log.debug("Found [ " + foundClasses.size() + " ] UserAuthenticationService Providers");
+//        for (ClassInfo classInfo : foundClasses) {
+//            String className = classInfo.getClassName();
+        String className = this.getConfig().getUserAuthClassName();
+        X509UserAuthorizationService authService = null;
+
+        if (className != null && !className.isEmpty()) {
+            log.info("Creating instance of [ " + className + " ]");
+            authService = (X509UserAuthorizationService) ReflectionHelper.createObject(className);
+            if (authService == null) {
+                log.warn("No User Authentication Service Providers were found in ClassPath");
+            }
+        }
+        return authService;
+//        }
     }
 
 }
