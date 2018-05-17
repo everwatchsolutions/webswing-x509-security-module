@@ -127,17 +127,6 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
     }
 
     private X509UserAuthorizationService locateUserAuthService() {
-//        ClassFinder finder = new ClassFinder();
-//        finder.addClassPath();
-//
-//        ClassFilter filter = new SubclassClassFilter(X509UserAuthorizationService.class);
-//
-//        Collection<ClassInfo> foundClasses = new ArrayList<ClassInfo>();
-//        finder.findClasses(foundClasses, filter);
-//
-//        log.debug("Found [ " + foundClasses.size() + " ] UserAuthenticationService Providers");
-//        for (ClassInfo classInfo : foundClasses) {
-//            String className = classInfo.getClassName();
         String className = this.getConfig().getUserAuthClassName();
         X509UserAuthorizationService authService = null;
 
@@ -149,7 +138,6 @@ public class X509SecurityModule extends AbstractExtendableSecurityModule<X509Sec
             }
         }
         return authService;
-//        }
     }
 
 }
