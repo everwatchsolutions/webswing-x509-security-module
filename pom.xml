@@ -7,13 +7,13 @@
     <description>Provides a x509 security module for the WebSwing platform</description>
     <url>https://github.com/acesinc/webswing-x509-security-module</url>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     
     <scm>
         <connection>scm:git:git://github.com/acesinc/webswing-x509-security-module.git</connection>
         <developerConnection>scm:git:git@github.com:acesinc/webswing-x509-security-module.git</developerConnection>
         <url>https://github.com/acesinc/webswing-x509-security-module</url>
-        <tag>HEAD</tag>
+        <tag>webswing-x509-security-module-1.0.1</tag>
     </scm>
   
     <licenses>
