@@ -18,7 +18,7 @@ public class NoOpUserAuthService extends X509UserAuthorizationService {
 
     @Override
     public X509User populateUserAuthorizations(X509User user) {
-        log.warn("NoOpUserAuthService doing nothing to populate user authorizations for user [ " + user.getUserId() + " ]");
+        log.warn("NoOpUserAuthService doing nothing to populate user authorizations for user [ " + user.getFullCn() + " ]");
         log.info("The following options are set: " + this.getOptions());
         return user;
     }
